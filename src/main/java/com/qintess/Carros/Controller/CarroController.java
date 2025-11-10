@@ -2,6 +2,7 @@ package com.qintess.Carros.Controller;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -17,11 +18,15 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.qintess.Carros.DTO.CarroDTO;
 import com.qintess.Carros.Model.Carro;
+import com.qintess.Carros.Model.Pessoa;
 import com.qintess.Carros.Service.CarroService;
+import com.qintess.Carros.Service.PessoaService;
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/carros")
 public class CarroController {
+	@Autowired
+	private PessoaService pessoaSer;
 
     private final CarroService service;
 
@@ -48,7 +53,14 @@ public class CarroController {
 
     @PostMapping
     public CarroDTO cadastrar(@RequestBody CarroDTO dto) {
-        return service.salvar(dto);
+        
+    	if (dto.getPessoa() != null && dto.getPessoa().getId() != null) {
+            Pessoa pessoa = pessoaSer.findById(dto.getPessoa().getId())
+                    .orElseThrow(() -> new RuntimeException("Pessoa não encontrada"));
+            dto.setPessoa(pessoa);
+        }
+    	
+    	return service.salvar(dto);
     }
 
     @PutMapping("/{id}")

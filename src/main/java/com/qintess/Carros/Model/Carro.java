@@ -14,4 +14,8 @@ public class Carro {
     private String marca;
     private String modelo;
     private int ano;
+    
+    @ManyToOne
+    @JoinColumn(name="pessoa_id")
+    private Pessoa pessoa;
 }

@@ -38,6 +38,7 @@ public class CarroService {
         carro.setMarca(dto.getMarca());
         carro.setModelo(dto.getModelo());
         carro.setAno(dto.getAno());
+        carro.setPessoa(dto.getPessoa());
         return new CarroDTO(repository.save(carro));
     }
 
