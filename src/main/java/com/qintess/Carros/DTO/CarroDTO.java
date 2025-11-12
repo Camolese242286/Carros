@@ -14,7 +14,7 @@ public class CarroDTO {
     private String marca;
     private String modelo;
     private int ano;
-    private Pessoa pessoa;
+    private PessoaResumoDTO pessoa;
   
     public CarroDTO() {}
 
@@ -25,6 +25,8 @@ public class CarroDTO {
         this.marca = carro.getMarca();
         this.modelo = carro.getModelo();
         this.ano = carro.getAno();
-        this.pessoa = carro.getPessoa(); 
+        if (carro.getPessoa() != null)
+            this.pessoa = new PessoaResumoDTO(carro.getPessoa());
     }
-}
+     
+    }

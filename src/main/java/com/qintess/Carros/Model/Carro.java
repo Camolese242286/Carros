@@ -1,5 +1,7 @@
 package com.qintess.Carros.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -17,5 +19,6 @@ public class Carro {
     
     @ManyToOne
     @JoinColumn(name="pessoa_id")
+    @JsonIgnore
     private Pessoa pessoa;
 }

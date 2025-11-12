@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.qintess.Carros.DTO.CarroDTO;
+import com.qintess.Carros.DTO.PessoaResumoDTO;
 import com.qintess.Carros.Model.Carro;
 import com.qintess.Carros.Model.Pessoa;
 import com.qintess.Carros.Service.CarroService;
@@ -55,9 +56,9 @@ public class CarroController {
     public CarroDTO cadastrar(@RequestBody CarroDTO dto) {
         
     	if (dto.getPessoa() != null && dto.getPessoa().getId() != null) {
-            Pessoa pessoa = pessoaSer.findById(dto.getPessoa().getId())
-                    .orElseThrow(() -> new RuntimeException("Pessoa não encontrada"));
-            dto.setPessoa(pessoa);
+    		Pessoa pessoa = pessoaSer.findById(dto.getPessoa().getId())
+    		        .orElseThrow(() -> new RuntimeException("Pessoa não encontrada"));
+    		dto.setPessoa(new PessoaResumoDTO(pessoa)); 
         }
     	
     	return service.salvar(dto);

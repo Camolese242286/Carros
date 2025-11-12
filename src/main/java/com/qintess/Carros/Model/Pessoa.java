@@ -22,7 +22,7 @@ public class Pessoa {
 	
 	private String nome;
 
-	@OneToMany(mappedBy="pessoa",cascade=CascadeType.ALL ,orphanRemoval = true)
+	@OneToMany(mappedBy="pessoa",orphanRemoval = true)
 	private List<Carro>carro;
 	
 	public Pessoa(Long id, String nome) {

@@ -4,20 +4,23 @@ import org.springframework.stereotype.Service;
 
 import com.qintess.Carros.DTO.CarroDTO;
 import com.qintess.Carros.Model.Carro;
+import com.qintess.Carros.Model.Pessoa;
 import com.qintess.Carros.Repository.CarroRepository;
+import com.qintess.Carros.Repository.PessoaRepository;
+
+import lombok.AllArgsConstructor;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class CarroService {
 
-    private final CarroRepository repository;
+    private  CarroRepository repository;
 
-    public CarroService(CarroRepository repository) {
-        this.repository = repository;
-    }
+    private PessoaRepository pessoaRepository;
 
     public List<CarroDTO> listarTodos() {
         return repository.findAll()
@@ -33,15 +36,23 @@ public class CarroService {
 
     public CarroDTO salvar(CarroDTO dto) {
         Carro carro = new Carro();
-       
+
         carro.setPlaca(dto.getPlaca());
         carro.setMarca(dto.getMarca());
         carro.setModelo(dto.getModelo());
         carro.setAno(dto.getAno());
-        carro.setPessoa(dto.getPessoa());
-        return new CarroDTO(repository.save(carro));
-    }
 
+        // Buscar e associar a pessoa
+        if (dto.getPessoa() != null && dto.getPessoa().getId() != null) {
+            Pessoa pessoa = pessoaRepository.findById(dto.getPessoa().getId())
+                    .orElseThrow(() -> new RuntimeException("Pessoa não encontrada"));
+            carro.setPessoa(pessoa);
+        }
+
+        carro = repository.save(carro);
+
+        return new CarroDTO(carro);
+    }
     public CarroDTO atualizar(Long id, CarroDTO dto) {
         Carro carro = repository.findById(id).orElseThrow();
         

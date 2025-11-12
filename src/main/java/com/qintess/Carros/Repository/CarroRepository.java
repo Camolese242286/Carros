@@ -9,4 +9,6 @@ import com.qintess.Carros.Model.Carro;
 public interface CarroRepository extends JpaRepository<Carro, Long> {
 
 	Optional<Carro> findByPlaca(String placa);
+	
+	Optional<Carro> findById(Long id);
 }
